@@ -66,6 +66,8 @@ public class Game {
         make_menu_panel();
         make_options_panel();
         make_room_1();
+        make_room_2();
+        make_room_3();
     }
 
     public void setSounds() throws Exception {
@@ -276,15 +278,78 @@ public class Game {
         p.setOpaque(false);
         JLabel label = new JLabel("Room 1");
         label.setFont(new Font("Courier new", Font.PLAIN, 30));
-        // label.setBounds(0, 0, screen.getWidth(), 30);
         label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         label.setForeground(Color.white);
 
+        JButton button1 = makeButton("Room2", true);
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screen.setContentPane(panels.get("room2").getJPanel());
+                screen.revalidate();
+                button1.setBorderPainted(false);
+            }
+        });
+
+        JButton button2 = makeButton("Room3", true);
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screen.setContentPane(panels.get("room3").getJPanel());
+                screen.revalidate();
+                button2.setBorderPainted(false);
+            }
+        });
+        JPanel p1 = new JPanel();
+        p1.setBounds(0, 600, screen.getWidth(), 60);
+        p1.setOpaque(false);
+
+
         p.add(label);
+        p1.add(button1);
+        p1.add(button2);
         room1_panel.getJPanel().add(p);
+        room1_panel.getJPanel().add(p1);
+
 
         panels.put("room1", room1_panel);
 
+    }
+
+    public void make_room_2() throws IOException {
+        Panel room2_panel = new Panel(null, 0, 0);
+        room2_panel.setJPanel(new JPanel());
+        room2_panel.getJPanel().setLayout(null);
+        room2_panel.getJPanel().setBackground(Color.black);
+
+        JPanel p = new JPanel();
+        p.setBounds(0, 0, screen.getWidth(), 40);
+        p.setOpaque(false);
+        JLabel room2 = new JLabel("Room2");
+        room2.setFont(new Font("Courier new", Font.PLAIN, 30));
+        room2.setForeground(Color.white);
+        p.add(room2);
+        room2_panel.getJPanel().add(p);
+
+        panels.put("room2", room2_panel);
+    }
+
+    public void make_room_3() throws IOException {
+        Panel room3_panel = new Panel(null, 0, 0);
+        room3_panel.setJPanel(new JPanel());
+        room3_panel.getJPanel().setLayout(null);
+        room3_panel.getJPanel().setBackground(Color.BLACK);
+
+        JPanel p = new JPanel();
+        p.setBounds(0, 0, screen.getWidth(), 40);
+        p.setOpaque(false);
+        JLabel room3 = new JLabel("Room3");
+        room3.setForeground(Color.white);
+        room3.setFont(new Font("Courier new", Font.PLAIN, 30));
+        p.add(room3);
+        room3_panel.getJPanel().add(p);
+
+        panels.put("room3", room3_panel);
     }
 
     public JButton makeButton(String text, Boolean highlight) {
