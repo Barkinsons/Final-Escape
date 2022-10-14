@@ -14,7 +14,7 @@ import javax.swing.event.*;
 
 public class Game {
     JFrame screen = new JFrame();
-    Clip bgclip = AudioSystem.getClip();
+    Sound bg = new Sound();
     TreeMap<String, Panel> panels = new TreeMap<String, Panel>();
     TreeMap<String, AudioInputStream> sounds = new TreeMap<String, AudioInputStream>();
     FloatControl musicVolume;
@@ -25,67 +25,75 @@ public class Game {
         screen.setResizable(false);
         screen.setLocationRelativeTo(null);
         buildPanels();
-        setSounds();
-        screen.setContentPane(panels.get("menuPanel").getJPanel());
-        bgclip.open(sounds.get("bg"));
-        bgclip.loop(Clip.LOOP_CONTINUOUSLY);
-        musicVolume = (FloatControl) bgclip.getControl(FloatControl.Type.MASTER_GAIN);
+        // setSounds();
+        screen.setContentPane(panels.get("menuPanel"));
+        bg.set_file(0);
+        bg.loop();
+        musicVolume = (FloatControl) bg.clip.getControl(FloatControl.Type.MASTER_GAIN);
     }
 
     public void play() throws Exception {
         screen.setVisible(true);
     }
 
-    public class Panel {
-        JPanel p;
-        Image img;
+    // public class Panel {
+    //     JPanel p;
+    //     Image img;
 
-        public Panel(String filename, int width, int height) throws IOException {
-            if(filename != null) {img = ImageIO.read(new File(filename)).getScaledInstance(width, height, Image.SCALE_SMOOTH);} 
-        }
+    //     public Panel(String filename, int width, int height) throws IOException {
+    //         if(filename != null) {img = ImageIO.read(new File(filename)).getScaledInstance(width, height, Image.SCALE_SMOOTH);} 
+    //     }
 
-        public JPanel getJPanel() {return this.p;}
-        public  Image  getImage() {return this.img;}
-        public   void setJPanel(JPanel p) {this.p = p;}
+    //     public JPanel getJPanel() {return this.p;}
+    //     public  Image  getImage() {return this.img;}
+    //     public   void setJPanel(JPanel p) {this.p = p;}
 
-        public void resizePanel(int width, int height) {
-            if(img != null) {
-                img = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-            }
-            screen.setLocationRelativeTo(null);
-        }
+    //     public void resizePanel(int width, int height) {
+    //         if(img != null) {
+    //             img = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    //         }
+    //         screen.setLocationRelativeTo(null);
+    //     }
+    // }
+
+    // public void resize() {
+    //     for (Map.Entry<String, Panel> entry : panels.entrySet()) {
+    //         entry.getValue().resizePanel(screen.getWidth(), screen.getHeight());
+    //     }
+    // }
+
+    public void buildPanels() {
+
+        Image temp = null;
+        try {
+            temp = ImageIO.read(new File("res/images/creepy_girl.jpg")).getScaledInstance(screen.getWidth(), screen.getHeight(), Image.SCALE_SMOOTH);
+            make_menu_panel(temp);
+
+            make_options_panel();
+
+            make_room_1();
+        } catch (IOException e) { e.printStackTrace(); }
+
     }
 
-    public void resize() {
-        for (Map.Entry<String, Panel> entry : panels.entrySet()) {
-            entry.getValue().resizePanel(screen.getWidth(), screen.getHeight());
-        }
-    }
+    // public void setSounds() throws Exception {
+    //     sounds.put("bg", AudioSystem.getAudioInputStream(new File("res/audio/bg.wav")));
+    //     sounds.put("button_clicked", AudioSystem.getAudioInputStream(new File("res/audio/button_click.wav")));
+    // }
 
-    public void buildPanels() throws IOException {
-        make_menu_panel();
-        make_options_panel();
-        make_room_1();
-    }
+    public void make_menu_panel(Image img) throws IOException {
 
-    public void setSounds() throws Exception {
-        sounds.put("bg", AudioSystem.getAudioInputStream(new File("res/audio/bg.wav")));
-        sounds.put("button_clicked", AudioSystem.getAudioInputStream(new File("res/audio/button_click.wav")));
-    }
+        Panel menuPanel = new Panel(img);
 
-    public void make_menu_panel() throws IOException {
-
-        Panel menuPanel = new Panel("res/images/creepy_girl.jpg", screen.getWidth(), screen.getHeight());
-
-        menuPanel.setJPanel(new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(menuPanel.getImage(), 0, 0, null);
-            }
-        });
+        // menuPanel.setJPanel(new JPanel() {
+        //     @Override
+        //     protected void paintComponent(Graphics g) {
+        //         super.paintComponent(g);
+        //         g.drawImage(menuPanel.getImage(), 0, 0, null);
+        //     }
+        // });
   
-        menuPanel.getJPanel().setLayout(new BoxLayout(menuPanel.getJPanel(), BoxLayout.PAGE_AXIS));
+        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.PAGE_AXIS));
 
         JLabel title = new JLabel(new ImageIcon("res/images/title.gif"));
         title.setBorder(BorderFactory.createEmptyBorder(100, 0, 125, 0));
@@ -95,7 +103,7 @@ public class Game {
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                screen.setContentPane(panels.get("room1").getJPanel());
+                screen.setContentPane(panels.get("room1"));
                 screen.revalidate();
                 screen.repaint();
                 playButton.setBorderPainted(false);
@@ -108,7 +116,7 @@ public class Game {
         optionsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                screen.setContentPane(panels.get("optionsPanel").getJPanel());
+                screen.setContentPane(panels.get("optionsPanel"));
                 screen.revalidate();
                 optionsButton.setBorderPainted(false);
             }
@@ -127,20 +135,19 @@ public class Game {
         exitButton.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         exitButton.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(20, 0, 20, 0), new LineBorder(Color.white)));
 
-        menuPanel.getJPanel().add(title);
-        menuPanel.getJPanel().add(playButton);
-        menuPanel.getJPanel().add(optionsButton);
-        menuPanel.getJPanel().add(exitButton);
+        menuPanel.add(title);
+        menuPanel.add(playButton);
+        menuPanel.add(optionsButton);
+        menuPanel.add(exitButton);
 
         panels.put("menuPanel", menuPanel);
     }
 
     public void make_options_panel() throws IOException {
 
-        Panel optionsPanel = new Panel(null, 0, 0);
-        optionsPanel.setJPanel(new JPanel());
-        optionsPanel.getJPanel().setLayout(new BoxLayout(optionsPanel.getJPanel(), BoxLayout.PAGE_AXIS));
-        optionsPanel.getJPanel().setBackground(Color.black);
+        Panel optionsPanel = new Panel(null);
+        optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.PAGE_AXIS));
+        optionsPanel.setBackground(Color.black);
 
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
         titlePanel.setOpaque(false);
@@ -153,7 +160,7 @@ public class Game {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                screen.setContentPane(panels.get("menuPanel").getJPanel());
+                screen.setContentPane(panels.get("menuPanel"));
                 screen.revalidate();
                 exitButton.setBorderPainted(false);
             }
@@ -185,27 +192,27 @@ public class Game {
                 switch (res2.getSelectedItem().toString()) {
                     case "1920 x 1080":
                         screen.setSize(new Dimension(1920, 1080));
-                        resize();
+                        // resize();
                         break;
                     case "1600 x 900":
                         screen.setSize(new Dimension(1600, 900));
-                        resize();
+                        // resize();
                         break;
                     case "1440 x 900":
                         screen.setSize(new Dimension(1440, 900));
-                        resize();
+                        // resize();
                         break;    
                     case "1280 x 1024":
                         screen.setSize(new Dimension(1280, 1024));
-                        resize();
+                        // resize();
                         break; 
                     case "1280 x 800":
                         screen.setSize(new Dimension(1280, 800));
-                        resize();
+                        // resize();
                         break; 
                     case "800 x 600":
                         screen.setSize(new Dimension(800, 600));
-                        resize();
+                        // resize();
                         break; 
                 }
             }
@@ -254,22 +261,21 @@ public class Game {
         row3.add(sfx1);
         row3.add(sfx2);
     
-        optionsPanel.getJPanel().add(titlePanel);
-        optionsPanel.getJPanel().add(row1);
-        optionsPanel.getJPanel().add(row2);
-        optionsPanel.getJPanel().add(row3);
-        optionsPanel.getJPanel().add(bottomSpace);
+        optionsPanel.add(titlePanel);
+        optionsPanel.add(row1);
+        optionsPanel.add(row2);
+        optionsPanel.add(row3);
+        optionsPanel.add(bottomSpace);
 
         panels.put("optionsPanel", optionsPanel);
         
     }
 
     public void make_room_1() throws IOException {
-        Panel room1_panel = new Panel(null, screen.getWidth(), screen.getHeight());
+        Panel room1_panel = new Panel(null);
 
-        room1_panel.setJPanel(new JPanel());
-        room1_panel.getJPanel().setLayout(null);
-        room1_panel.getJPanel().setBackground(Color.black);
+        room1_panel.setLayout(null);
+        room1_panel.setBackground(Color.black);
 
         JPanel p = new JPanel();
         p.setBounds(0, 0, screen.getWidth(), 40);
@@ -281,7 +287,7 @@ public class Game {
         label.setForeground(Color.white);
 
         p.add(label);
-        room1_panel.getJPanel().add(p);
+        room1_panel.add(p);
 
         panels.put("room1", room1_panel);
 
