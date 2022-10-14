@@ -282,15 +282,76 @@ public class Game {
         p.setOpaque(false);
         JLabel label = new JLabel("Room 1");
         label.setFont(new Font("Courier new", Font.PLAIN, 30));
-        // label.setBounds(0, 0, screen.getWidth(), 30);
         label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         label.setForeground(Color.white);
 
+        JButton button1 = makeButton("Room2", true);
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screen.setContentPane(panels.get("room2"));
+                screen.revalidate();
+                button1.setBorderPainted(false);
+            }
+        });
+
+        JButton button2 = makeButton("Room3", true);
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                screen.setContentPane(panels.get("room3"));
+                screen.revalidate();
+                button2.setBorderPainted(false);
+            }
+        });
+        JPanel p1 = new JPanel();
+        p1.setBounds(0, 600, screen.getWidth(), 60);
+        p1.setOpaque(false);
+
+
         p.add(label);
+        p1.add(button1);
+        p1.add(button2);
         room1_panel.add(p);
+        room1_panel.add(p1);
+
 
         panels.put("room1", room1_panel);
 
+    }
+
+    public void make_room_2() throws IOException {
+        Panel room2_panel = new Panel(null);
+        room2_panel.setLayout(null);
+        room2_panel.setBackground(Color.black);
+
+        JPanel p = new JPanel();
+        p.setBounds(0, 0, screen.getWidth(), 40);
+        p.setOpaque(false);
+        JLabel room2 = new JLabel("Room2");
+        room2.setFont(new Font("Courier new", Font.PLAIN, 30));
+        room2.setForeground(Color.white);
+        p.add(room2);
+        room2_panel.add(p);
+
+        panels.put("room2", room2_panel);
+    }
+
+    public void make_room_3() throws IOException {
+        Panel room3_panel = new Panel(null);
+        room3_panel.setLayout(null);
+        room3_panel.setBackground(Color.BLACK);
+
+        JPanel p = new JPanel();
+        p.setBounds(0, 0, screen.getWidth(), 40);
+        p.setOpaque(false);
+        JLabel room3 = new JLabel("Room3");
+        room3.setForeground(Color.white);
+        room3.setFont(new Font("Courier new", Font.PLAIN, 30));
+        p.add(room3);
+        room3_panel.add(p);
+
+        panels.put("room3", room3_panel);
     }
 
     public JButton makeButton(String text, Boolean highlight) {
