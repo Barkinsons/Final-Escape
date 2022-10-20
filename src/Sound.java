@@ -6,6 +6,7 @@ public class Sound {
     File[] files = new File[30];
 
     public Sound() {
+
         files[0] = new File("res/audio/bg.wav");
         files[1] = new File("res/audio/button_forward.wav");
     }
@@ -33,6 +34,14 @@ public class Sound {
 
     public void stop() {
         clip.stop();
+    }
+
+    public static void playButton(float volume) {
+        Sound s = new Sound();
+        s.set_file(1);
+        FloatControl vol = (FloatControl) s.clip.getControl(FloatControl.Type.MASTER_GAIN);
+        vol.setValue(volume);
+        s.play();
     }
 
 }

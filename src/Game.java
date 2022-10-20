@@ -18,18 +18,22 @@ public class Game {
     TreeMap<String, Panel> panels = new TreeMap<String, Panel>();
     TreeMap<String, AudioInputStream> sounds = new TreeMap<String, AudioInputStream>();
     FloatControl musicVolume;
+    int sfxVol;
 
     public Game(int width, int height) throws Exception {
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         screen.setSize(width, height);
         screen.setResizable(false);
         screen.setLocationRelativeTo(null);
-        buildPanels();
-        // setSounds();
-        screen.setContentPane(panels.get("menuPanel"));
+
         bg.set_file(0);
         bg.loop();
         musicVolume = (FloatControl) bg.clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+        buildPanels();
+        // setSounds();
+
+        screen.setContentPane(panels.get("menuPanel"));
     }
 
     public void play() throws Exception {
@@ -145,7 +149,7 @@ public class Game {
 
     public void make_options_panel() throws IOException {
 
-        Panel optionsPanel = new Panel(null);
+        Panel optionsPanel = new Panel();
         optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.PAGE_AXIS));
         optionsPanel.setBackground(Color.black);
 
@@ -272,7 +276,7 @@ public class Game {
     }
 
     public void make_room_1() throws IOException {
-        Panel room1_panel = new Panel(null);
+        Panel room1_panel = new Panel();
 
         room1_panel.setLayout(null);
         room1_panel.setBackground(Color.black);
@@ -321,7 +325,7 @@ public class Game {
     }
 
     public void make_room_2() throws IOException {
-        Panel room2_panel = new Panel(null);
+        Panel room2_panel = new Panel();
         room2_panel.setLayout(null);
         room2_panel.setBackground(Color.black);
 
@@ -338,7 +342,7 @@ public class Game {
     }
 
     public void make_room_3() throws IOException {
-        Panel room3_panel = new Panel(null);
+        Panel room3_panel = new Panel();
         room3_panel.setLayout(null);
         room3_panel.setBackground(Color.BLACK);
 
