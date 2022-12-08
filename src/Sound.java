@@ -35,16 +35,20 @@ public class Sound {
             e.printStackTrace();
         }
 
-        if( i == 0 ) { clip.loop( Clip.LOOP_CONTINUOUSLY ); }
+        if( i == 0 ) { loop(); }
     }
 
     public void play() { clip.start(); }
     public void stop() { clip.stop(); }
+    public void loop() { clip.loop( Clip.LOOP_CONTINUOUSLY );}
 
     public static void playButton() { new Sound( 1 ); }
     public static void playScream() { new Sound( 2 ); }
     public static void playItem()   { new Sound( 3 ); }
     public static void playKnife()  { new Sound( 4 ); }
     public static void playGun()    { new Sound( 5 ); }
-    public static void playEnd()    { new Sound( 6 ); }
+    public static void playEnd()    { 
+        Sound s = new Sound( 6 ); 
+        s.loop();
+    }
 }

@@ -152,7 +152,7 @@ public class Game {
         if( eyesClosed ) { 
 
             screen.setContentPane( curPanel ); 
-            if( !ghostLoop.isRunning() && !bg.clip.isRunning() ) { bg.play(); }
+            if( !ghostLoop.isRunning() && !bg.clip.isRunning() ) { bg.loop(); }
         }
         else { screen.setContentPane( blackPanel ); }
 
