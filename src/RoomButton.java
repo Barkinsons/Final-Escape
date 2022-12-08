@@ -1,8 +1,5 @@
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-
-import javafx.stage.WindowEvent;
-
 import java.awt.event.ActionEvent;
 
 public class RoomButton extends Button {

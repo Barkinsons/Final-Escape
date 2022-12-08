@@ -7,7 +7,7 @@ Tranthony_777@csu.fullerton.edu
 
 How to run program:
 
-Pull repository and run "Game.jar" (must have java 1.8 or greater)
+Pull repository and run "Final-Escape.jar" (must have java 1.18 or greater)
 
 Controls - 
 

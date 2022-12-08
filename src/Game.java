@@ -1,16 +1,12 @@
-import javax.swing.JFrame;
-import javax.swing.Timer;
-
-import java.awt.event.WindowEvent;
-
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Random;
+import java.awt.event.WindowEvent;
+import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.Timer;
 import java.util.ArrayList;
+import java.util.Random;
 
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
 
 public class Game {
 
@@ -49,21 +45,6 @@ public class Game {
         screen.setResizable( false );
         screen.setFocusable( true );
         screen.addKeyListener( new KeyHandler( this ));
-
-        screen.addMouseListener( new MouseListener() {
-
-            public void mouseEntered( MouseEvent e ) {}
-            public void mouseExited( MouseEvent e ) {}
-            public void mousePressed( MouseEvent e ) {}
-            public void mouseClicked( MouseEvent e ) {
-
-                Double x = e.getX() / settings.getSize().getWidth();
-                Double y = e.getY() / settings.getSize().getHeight();
-
-                System.out.println( "(" + x + ", " + y + ")" );
-            }
-            public void mouseReleased( MouseEvent e ) {}
-        });
         
         lastRoomName = "jail";
 
@@ -108,6 +89,8 @@ public class Game {
             }
         });
 
+        deathLoop = new Timer( 3000, new ActionListener() { public void actionPerformed( ActionEvent e ) { stop(); } } );
+
         changeRoom( "menu" );
         screen.pack();
     }
@@ -135,8 +118,9 @@ public class Game {
     public void startGhostLoop() { ghostLoop.start(); }
 
     public void die() { 
-        screen.setContentPane( Panels.makeRoom( "options", false, this )); 
-        System.out.print("died");
+        screen.setContentPane( Panels.makeRoom( "death", false, this )); 
+        deathLoop.start();
+        Sound.playScream();
     }
 
     public void changeResolution( Dimension newSize ) {

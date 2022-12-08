@@ -1,9 +1,6 @@
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
-import javafx.scene.shape.Rectangle;
-
 import java.io.IOException;
 import java.io.File;
 import java.awt.Dimension;
