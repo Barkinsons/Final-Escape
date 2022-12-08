@@ -1,18 +1,16 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Color;
 
-public class Label extends JLabel{
+import javax.swing.JLabel;
+
+public class Label extends JLabel {
     
-    public Label(String text, int fontSize, float ax, float ay) {
-        super(text);
-        this.setFont(new Font("Courier new", Font.PLAIN, fontSize));
-        this.setAlignmentX(ax);
-        this.setAlignmentY(ay);
-        this.setForeground(Color.WHITE);
-    }
+    public Label( String text ) {
 
-    public Label(ImageIcon img, float ax, float ay) {
-        this("", 0, ax, ay);
-        this.setIcon(img);
+        super(text);
+
+        setFont( new Font("Courier new", Font.PLAIN, 40) );
+        setForeground( Color.WHITE );
+        setAlignmentX( 0.5f );
     }
 }

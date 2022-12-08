@@ -1,53 +1,15 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JButton;
+import java.awt.Cursor;
 
+public class Button extends JButton {
 
-public class Button extends JButton{
+    public Button() {
 
-    public Button(String text, float ax, float ay, String room, int fontSize, GameTest game) {
-
-        this.setText(text);
-        this.setFont(new Font("Courier new", Font.PLAIN, fontSize));
-
-        this.setAlignmentX(ax);
-        this.setAlignmentY(ay);
-
-        this.setBorderPainted(false);
-        this.setContentAreaFilled(false);
-        this.setForeground(Color.white);
-        this.setFocusPainted(false);
-        this.setOpaque(false);
-
-        this.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent evt) {
-                setBorderPainted(true);
-            }
-            public void mouseExited(MouseEvent evt) {
-                setBorderPainted(false);
-            }
-        });
-
-        this.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                Sound.playButton(game.SFXVolume);
-                game.changeRoom(room);
-            }
-        });
+        setCursor( Cursor.getPredefinedCursor(Cursor.HAND_CURSOR) );
+        setContentAreaFilled( false );
+        setBorderPainted( false );
+        setFocusPainted( false );
+        setOpaque( false );
 
     }
-
-    public Button(ImageIcon img, float ax, float ay, String room, int sx, int sy, GameTest game) {
-
-        this("", ax, ay, room, 0, game);
-        this.setIcon(new ImageIcon(img.getImage().getScaledInstance(sx, sy, Image.SCALE_SMOOTH)));
-
-    }
-
-
-
-
-    
-
 }
